@@ -8,6 +8,8 @@ import EventsPage from './pages/EventsPage';
 import Chatbot from './components/Chatbot';
 import ContributionButton from './components/ContributionButton';
 import Footer from './components/Footer';
+import VirtualTour from './components/VirtualTour';
+import LieuVisite from './components/LieuVisite';
 
 export type Language = 'fr' | 'ar' | 'wo' | 'en';
 
@@ -28,6 +30,8 @@ function App() {
             <Route path="/virtual-tour" element={<VirtualTourPage currentLanguage={currentLanguage} />} />
             <Route path="/map" element={<InteractiveMapPage currentLanguage={currentLanguage} />} />
             <Route path="/events" element={<EventsPage currentLanguage={currentLanguage} />} />
+            <Route path="/virtual-tour/:catKey/:idx" element={<VirtualTour currentLanguage={currentLanguage} />} />
+            <Route path="/lieu/:catKey/:idx" element={<LieuVisite currentLanguage={currentLanguage} />} />
           </Routes>
         </main>
         <Footer currentLanguage={currentLanguage} />
