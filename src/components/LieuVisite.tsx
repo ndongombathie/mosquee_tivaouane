@@ -30,7 +30,7 @@ const LieuVisite: React.FC<{ currentLanguage: Language }> = ({ currentLanguage }
 
   return (
     <div
-      className="fixed inset-0 z-50 bg-black/90 flex flex-col"
+      className="fixed inset-0  z-[60] bg-black/90 flex flex-col"
       style={{ minHeight: '100vh', minWidth: '100vw' }}
     >
       <button
@@ -58,12 +58,18 @@ const LieuVisite: React.FC<{ currentLanguage: Language }> = ({ currentLanguage }
         <div className="w-full h-full flex items-center justify-center" style={{ minHeight: 0 }}>
           <Suspense fallback={<div className="flex items-center justify-center h-full text-white">Chargement...</div>}>
             <Canvas
-              camera={{ position: [0, 0, 0.1], fov: 80 }}
+              camera={{ position: [0, 0, 0.1], fov: 100 }}
               style={{ width: '100vw', height: '100vh', background: 'black' }}
             >
               <ambientLight intensity={0.7} />
               <PanoramaSphere textureUrl={lieu.img} />
-              <OrbitControls enableZoom={true} enablePan={true} autoRotate={false} />
+              <OrbitControls
+                enableZoom={true}
+                enablePan={true}
+                autoRotate={false}
+                minDistance={0.1} // distance minimale (empêche de sortir de la sphère)
+                maxDistance={2.5} // distance maximale (évite de voir l'extérieur)
+              />
             </Canvas>
           </Suspense>
         </div>
