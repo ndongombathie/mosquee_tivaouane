@@ -74,18 +74,13 @@ const VirtualTour: React.FC<{ currentLanguage: Language }> = ({ currentLanguage 
         <div className="text-center mb-12" dir={isRTL ? 'rtl' : 'ltr'}>
           <h2 className="text-4xl md:text-5xl font-extrabold text-emerald-900 mb-3 tracking-tight">
             {/* ...titre selon langue... */}
-            {currentLanguage === 'fr' && 'Visite Virtuelle 360°'}
-            {currentLanguage === 'ar' && 'جولة افتراضية 360°'}
-            {currentLanguage === 'wo' && 'Yëngal 360°'}
-            {currentLanguage === 'en' && 'Virtual Tour 360°'}
-          </h2>
-          <p className="text-lg text-emerald-700">
             {/* ...sous-titre selon langue... */}
             {currentLanguage === 'fr' && 'Explorez chaque recoin de la Grande Mosquée'}
             {currentLanguage === 'ar' && 'استكشف كل زاوية من المسجد الكبير'}
             {currentLanguage === 'wo' && 'Gis bépp kaw ci Juumaa bi'}
             {currentLanguage === 'en' && 'Explore every corner of the Great Mosque'}
-          </p>
+          </h2>
+          
         </div>
 
         {/* Catégories */}
