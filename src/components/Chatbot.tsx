@@ -90,7 +90,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ currentLanguage, isVisible, onToggle 
 
       {/* Chat Window */}
       {isVisible && (
-        <div className={`fixed bottom-24 ${isRTL ? 'left-6' : 'right-6'} z-40 w-96 max-w-[90vw] bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden`}>
+        <div className={`fixed bottom-24 ${isRTL ? 'left-6' : 'right-6'} z-[70] w-96 max-w-[90vw] bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden`}>
           {/* Header */}
           <div className="bg-gradient-to-r from-emerald-600 to-blue-600 text-white p-4">
             <div className="flex items-center justify-between" dir={isRTL ? 'rtl' : 'ltr'}>

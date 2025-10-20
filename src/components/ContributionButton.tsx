@@ -78,7 +78,7 @@ const ContributionButton: React.FC<ContributionButtonProps> = ({ currentLanguage
       {/* Floating Contribution Button */}
       <button
         onClick={() => setShowModal(true)}
-        className={`fixed bottom-8 ${isRTL ? 'right-6' : 'left-6'} z-50  bg-gradient-to-r from-emerald-600 to-blue-600 text-white px-6 py-4 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 group`}
+        className={`fixed bottom-6 ${isRTL ? 'right-6' : 'left-6'} z-50  bg-gradient-to-r from-emerald-600 to-blue-600 text-white px-6 py-4 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 group`}
       >
         <div className="flex items-center space-x-3">
           <Heart className="w-6 h-6 group-hover:scale-110 transition-transform" />
@@ -88,7 +88,7 @@ const ContributionButton: React.FC<ContributionButtonProps> = ({ currentLanguage
 
       {/* Contribution Modal */}
       {showModal && (
-        <div className="fixed inset-0 z-60 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-[100] bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto">
             {/* Header */}
             <div className=" bg-gradient-to-r from-emerald-600 to-blue-600 text-white p-6 relative">
