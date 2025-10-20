@@ -31,7 +31,7 @@ function App() {
             <Route path="/map" element={<InteractiveMapPage currentLanguage={currentLanguage} />} />
             <Route path="/events" element={<EventsPage currentLanguage={currentLanguage} />} />
             <Route path="/virtual-tour/:catKey/:idx" element={<VirtualTour currentLanguage={currentLanguage} />} />
-            <Route path="/lieu/:catKey/:idx" element={<LieuVisite currentLanguage={currentLanguage} />} />
+            <Route path="/lieu/:catKey/:lieuid" element={<LieuVisite currentLanguage={currentLanguage} />} />
           </Routes>
         </main>
         <Footer currentLanguage={currentLanguage} />

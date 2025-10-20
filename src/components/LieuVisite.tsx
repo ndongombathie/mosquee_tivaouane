@@ -18,13 +18,13 @@ function PanoramaSphere({ textureUrl, initialRotationY = Math.PI / 1.5 }) {
 }
 
 const LieuVisite: React.FC<{ currentLanguage: Language }> = ({ currentLanguage }) => {
-  const { catKey, idx } = useParams();
+  const { catKey, lieuid } = useParams();
   const navigate = useNavigate();
   const isRTL = currentLanguage === 'ar';
 
   // Trouver le lieu
   const cat = categories.find(c => c.key === catKey);
-  const lieu = cat?.lieux[parseInt(idx || '0', 10)];
+  const lieu = cat?.lieux[parseInt(lieuid?.charAt(0) || '0', 10)];
 
   if (!lieu) return <div>Lieu introuvable</div>;
 
