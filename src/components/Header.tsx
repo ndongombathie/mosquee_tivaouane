@@ -1,12 +1,16 @@
-import React from 'react';
+
 import { MapPin, Globe, Menu } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Language } from '../App';
+import { useState } from 'react';
 
 interface HeaderProps {
   currentLanguage: Language;
   setCurrentLanguage: (lang: Language) => void;
 }
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+ 
+
 
 const translations = {
   fr: {
@@ -45,6 +49,7 @@ const translations = {
 
 const Header: React.FC<HeaderProps> = ({ currentLanguage, setCurrentLanguage }) => {
   const t = translations[currentLanguage];
+   const [ShowModal,setShowModal]=useState(false)
   
   const languages = [
     { code: 'fr' as Language, name: 'Français', flag: '🇫🇷' },
@@ -54,6 +59,7 @@ const Header: React.FC<HeaderProps> = ({ currentLanguage, setCurrentLanguage }) 
   ];
 
   return (
+    <>
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md shadow-lg border-b border-emerald-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
@@ -68,7 +74,6 @@ const Header: React.FC<HeaderProps> = ({ currentLanguage, setCurrentLanguage }) 
               </h1>
             </div>
           </div>
-
           {/* Navigation */}
           <nav className="hidden md:flex space-x-8">
             <Link to="/" className="text-gray-700 hover:text-emerald-600 transition-colors font-medium">
@@ -115,13 +120,41 @@ const Header: React.FC<HeaderProps> = ({ currentLanguage, setCurrentLanguage }) 
             </div>
 
             {/* Mobile Menu */}
-            <button className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors">
+            <button
+             onClick={()=>{
+              setShowModal(!ShowModal)
+            }}
+             className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors">
               <Menu className="w-6 h-6 text-gray-700" />
             </button>
           </div>
         </div>
       </div>
     </header>
+    {ShowModal &&
+        (
+          <div className='fixed top-12 right-[55px] z-[99999] bg-slate-200 rounded-xl'>
+            <nav className=" block md:flex space-y-2 text-left p-3 ">
+            <Link to="/" onClick={()=>{setShowModal(!ShowModal)}} className="text-gray-700 hover:text-emerald-600 transition-colors font-medium block">
+              {t.home}
+            </Link>
+            <Link to="/virtual-tour" onClick={()=>{setShowModal(!ShowModal)}} className="text-gray-700 hover:text-emerald-600 transition-colors font-medium block">
+              {t.virtualTour}
+            </Link>
+            <Link to="/map" onClick={()=>{setShowModal(!ShowModal)}} className="text-gray-700 hover:text-emerald-600 transition-colors font-medium block">
+              {t.map}
+            </Link>
+            <Link to="/events" onClick={()=>{setShowModal(!ShowModal)}} className="text-gray-700 hover:text-emerald-600 transition-colors font-medium block">
+              {t.events}
+            </Link>
+            <Link to="/premium" onClick={()=>{setShowModal(!ShowModal)}} className="text-gray-700 hover:text-emerald-600 transition-colors font-medium block">
+              {t.premium}
+            </Link>
+          </nav>
+          </div>
+        )
+      }
+    </>
   );
 };
 

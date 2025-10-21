@@ -6,6 +6,8 @@ interface FooterProps {
   currentLanguage: Language;
 }
 
+
+
 const translations = {
   fr: {
     title: 'Grande Mosquée de Tivaouane',

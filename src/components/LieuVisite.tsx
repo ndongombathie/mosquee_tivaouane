@@ -30,18 +30,18 @@ const LieuVisite: React.FC<{ currentLanguage: Language }> = ({ currentLanguage }
 
   return (
     <div
-      className="fixed inset-0  z-[60] bg-black/90 flex flex-col"
+      className="fixed inset-0  z-[60] bg-black flex flex-col"
       style={{ minHeight: '100vh', minWidth: '100vw' }}
     >
       <button
-        className="absolute top-6 left-6 flex items-center gap-2 text-white bg-emerald-600 hover:bg-emerald-700 rounded-full px-4 py-2 shadow-lg"
+        className="absolute top-2 left-6 flex items-center gap-2 text-white bg-emerald-600 hover:bg-emerald-700 rounded-full px-4 py-2 shadow-lg"
         onClick={() => navigate(-1)}
         style={{ zIndex: 10 }}
       >
         <ChevronLeft /> {currentLanguage === 'fr' ? 'Retour' : currentLanguage === 'ar' ? 'رجوع' : currentLanguage === 'wo' ? 'Delloo' : 'Back'}
       </button>
       <button
-        className="absolute top-6 right-6 text-white bg-emerald-600 hover:bg-emerald-700 rounded-full p-2 shadow-lg"
+        className="absolute top-2 right-6 text-white bg-emerald-600 hover:bg-emerald-700 rounded-full p-2 shadow-lg"
         onClick={() => navigate(-1)}
         title="Fermer"
         style={{ zIndex: 10 }}
@@ -49,12 +49,9 @@ const LieuVisite: React.FC<{ currentLanguage: Language }> = ({ currentLanguage }
         <X className="w-6 h-6" />
       </button>
       <div className="flex-1 flex flex-col items-center justify-center">
-        <h2 className="text-3xl font-bold text-white mb-1 mt-2" dir={isRTL ? 'rtl' : 'ltr'}>
+        <h2 className="text-3xl font-bold text-white mb-3 mt-2" dir={isRTL ? 'rtl' : 'ltr'}>
           {lieu.name[currentLanguage]}
         </h2>
-        <p className="text-lg text-gray-200 mb-2" dir={isRTL ? 'rtl' : 'ltr'}>
-          {lieu.desc[currentLanguage]}
-        </p>
         <div className="w-full h-full flex items-center justify-center" style={{ minHeight: 0 }}>
           <Suspense fallback={<div className="flex items-center justify-center h-full text-white">Chargement...</div>}>
             <Canvas
