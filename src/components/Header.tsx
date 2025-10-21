@@ -133,7 +133,7 @@ const Header: React.FC<HeaderProps> = ({ currentLanguage, setCurrentLanguage }) 
     </header>
     {ShowModal &&
         (
-          <div className='fixed top-12 right-[55px] z-[99999] bg-slate-200 rounded-xl'>
+          <div className='md:hidden fixed top-12 right-[55px] z-[99999] bg-slate-200 rounded-xl'>
             <nav className=" block md:flex space-y-2 text-left p-3 ">
             <Link to="/" onClick={()=>{setShowModal(!ShowModal)}} className="text-gray-700 hover:text-emerald-600 transition-colors font-medium block">
               {t.home}
