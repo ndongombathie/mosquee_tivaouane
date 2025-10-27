@@ -4,9 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import hall from '../images/hall.jpg'
 import centre from '../images/centre.jpg'
 import { Language } from '../App';
+import axios from '../utils/axios';
+import { useState, useEffect } from 'react';
 
 // Nouvelle structure par catégorie
-export const  categories = [
+/* export const  categories = [
+
   {
     key: 'priere',
     fr: 'Espaces de prière',
@@ -14,7 +17,10 @@ export const  categories = [
     wo: 'Fenn yu jëmm',
     en: 'Prayer spaces',
     lieux: [
-      {id:"01crfr-vregtge564-verg84fr-wer2frfr-15rfafefqw-vwefwf897-efqwfeff84f9wf-fewfwfewf898-dzgwefwdc4dcSff-safcr3fr-fcvsffewfsdcdcf", name: { fr: 'Salle de prière principale', ar: 'قاعة الصلاة الرئيسية', wo: 'Kër jumma bu mag', en: 'Main prayer hall' }, desc: { fr: "Lieu central pour les prières collectives.", ar: "المكان المركزي للصلاة الجماعية.", wo: "Fenn bu mag ngir jëmm.", en: "Central place for collective prayers." }, img: hall }
+      {id:"01crfr-vregtge564-verg84fr-wer2frfr-15rfafefqw-vwefwf897-efqwfeff84f9wf-fewfwfewf898-dzgwefwdc4dcSff-safcr3fr-fcvsffewfsdcdcf",
+         name: { fr: 'Salle de prière principale', ar: 'قاعة الصلاة الرئيسية', wo: 'Kër jumma bu mag', en: 'Main prayer hall' },
+         desc: { fr: "Lieu central pour les prières collectives.", ar: "المكان المركزي للصلاة الجماعية.", wo: "Fenn bu mag ngir jëmm.", en: "Central place for collective prayers." },
+         img: hall }
     ]
   },
   {
@@ -48,9 +54,25 @@ export const  categories = [
       {id:"0vfe65kmpsw-ewtg156wf43frefq-fwef1wf6qwf18fvxdscdsvfeg1-qrds12vv1f3cvcfr-wqrwer1ds1ffr5wqew-f5f1w89wffew-rf5fwr98/w4", name: { fr: 'Bibliothèque', ar: 'المكتبة', wo: 'Biiblioteek', en: 'Library' }, desc: { fr: "Lieu de savoir et d'étude.", ar: "مكان للعلم والدراسة.", wo: "Fenn bu xam-xam ak jàng.", en: "Place of knowledge and study." }, img: "https://images.unsplash.com/photo-1465101046530-73398c7f28ca" }
     ]
   }
-];
+]; */
+
+
 
 const VirtualTour: React.FC<{ currentLanguage: Language }> = ({ currentLanguage }) => {
+const [categories, setCategories] = useState<any[]>([]);
+const [loading, setLoading] = useState<boolean>(true)
+
+useEffect(() => {
+  axios.get('/categories').then(response => {
+    setCategories(response.data.data);
+    setLoading(false)
+    
+  });
+}, []);
+
+
+
+console.log(categories);
   const navigate = useNavigate();
   const isRTL = currentLanguage === 'ar';
 
@@ -82,42 +104,45 @@ const VirtualTour: React.FC<{ currentLanguage: Language }> = ({ currentLanguage 
           </h2>
           
         </div>
+        {loading &&(
+          <div className=" text-center h-full text-black">Chargement...</div>
+        )}
 
         {/* Catégories */}
         {categories.map(cat => (
-          <div key={cat.key} className="mb-12">
+          <div key={cat.id} className="mb-12">
             <h3 className="text-2xl font-bold text-emerald-800 mb-4" dir={isRTL ? 'rtl' : 'ltr'}>
-              {cat[currentLanguage]}
+              {cat.name}
             </h3>
             <div className="relative">
               {/* Flèche gauche */}
               <button
                 className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-emerald-100 border border-emerald-300 rounded-full p-2 shadow transition disabled:opacity-40"
-                style={{ display: cat.lieux.length > 1 ? 'block' : 'none' }}
-                onClick={() => scroll(cat.key, 'left')}
+                style={{ display: cat.lieus?.length > 1 ? 'block' : 'none' }}
+                onClick={() => scroll(cat.id, 'left')}
                 aria-label="Scroll left"
               >
                 <ChevronLeft className="w-6 h-6 text-emerald-700" />
               </button>
               {/* Scroll container */}
               <div
-                ref={el => (scrollRefs.current[cat.key] = el)}
+                ref={el => (scrollRefs.current[cat.id] = el)}
                 className="flex gap-6 overflow-x-auto pb-2 px-10 scroll-smooth"
                 style={{
                   scrollbarWidth: 'none',
                   msOverflowStyle: 'none'
                 }}
               >
-                {cat.lieux.map((lieu) => (
+                {cat.lieus?.map((lieu: { id: string; image: string; name: string; description: string}) => (
                   <div
                     key={lieu.id}
-                    onClick={() => navigate(`/lieu/${cat.key}/${lieu.id}`)}
+                    onClick={() => navigate(`/lieu/${cat.name}/${lieu.id}`)}
                     className="min-w-[220px] max-w-xs group bg-white rounded-2xl shadow-lg overflow-hidden border-2 transition-all duration-300 flex-shrink-0 hover:scale-105 hover:border-emerald-300 cursor-pointer"
                   >
                     <div className="relative h-40 w-full">
                       <img
-                        src={lieu.img}
-                        alt={lieu.name[currentLanguage]}
+                        src={`http://localhost:8000/storage/images/${lieu.image}`}
+                        alt={lieu.name}
                         className="w-full h-full object-cover transition duration-300 group-hover:brightness-90"
                       />
                       <div className="absolute top-3 left-3 bg-emerald-500/80 rounded-full p-2 shadow-lg">
@@ -125,8 +150,8 @@ const VirtualTour: React.FC<{ currentLanguage: Language }> = ({ currentLanguage 
                       </div>
                     </div>
                     <div className="p-4 flex flex-col gap-2 h-20">
-                      <h4 className="text-base font-bold text-emerald-800">{lieu.name[currentLanguage]}</h4>
-                      <p className="text-gray-600 text-xs">{lieu.desc[currentLanguage]}</p>
+                      <h4 className="text-base font-bold text-emerald-800">{lieu.name}</h4>
+                      <p className="text-gray-600 text-xs">{lieu.description}</p>
                     </div>
                   </div>
                 ))}
@@ -134,8 +159,8 @@ const VirtualTour: React.FC<{ currentLanguage: Language }> = ({ currentLanguage 
               {/* Flèche droite */}
               <button
                 className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-emerald-100 border border-emerald-300 rounded-full p-2 shadow transition disabled:opacity-40"
-                style={{ display: cat.lieux.length > 1 ? 'block' : 'none' }}
-                onClick={() => scroll(cat.key, 'right')}
+                style={{ display: cat.lieus?.length > 1 ? 'block' : 'none' }}
+                onClick={() => scroll(cat.id, 'right')}
                 aria-label="Scroll right"
               >
                 <ChevronRight className="w-6 h-6 text-emerald-700" />

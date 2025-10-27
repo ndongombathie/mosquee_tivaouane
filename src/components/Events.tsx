@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Calendar, Clock, MapPin, Users, Filter } from 'lucide-react';
 import { Language } from '../App';
+import axios from '../utils/axios';
+import { log } from 'three/tsl';
 
 interface EventsProps {
   currentLanguage: Language;
@@ -57,42 +59,21 @@ const translations = {
   }
 };
 
-const events = [
-  {
-    id: 1,
-    title: 'Conférence sur l\'Histoire de Tivaouane',
-    date: '2025-02-15',
-    time: '14:00',
-    location: 'Grande Mosquée',
-    participants: 250,
-    type: 'conference',
-    status: 'upcoming'
-  },
-  {
-    id: 2,
-    title: 'Récitation du Coran - Qiraat',
-    date: '2025-02-20',
-    time: '19:00',
-    location: 'Salle de prière',
-    participants: 180,
-    type: 'religious',
-    status: 'upcoming'
-  },
-  {
-    id: 3,
-    title: 'Célébration du Mawlid',
-    date: '2025-01-20',
-    time: '20:00',
-    location: 'Cour principale',
-    participants: 500,
-    type: 'celebration',
-    status: 'past'
-  }
-];
 
-const InteractiveMap: React.FC<InteractiveMapProps> = ({ currentLanguage }) => {
+
+const InteractiveMap: React.FC<any> = ({ currentLanguage }) => {
   const [filter, setFilter] = useState('all');
   const t = translations[currentLanguage];
+  const [loading, setLoading] = useState<boolean>(true)
+  const [events, setEvents] = useState<any[]>([]);
+  useEffect(() => {
+    axios.get('/evenements').then(response => {
+      setEvents(response.data.data);
+      setLoading(false);
+    });
+  }, []);
+  console.log(events);
+  
   const isRTL = currentLanguage === 'ar';
 
   const filteredEvents = filter === 'all' 
@@ -141,6 +122,9 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({ currentLanguage }) => {
         </div>
 
         {/* Events Grid */}
+        {loading &&(
+          <div className=" text-center h-full text-black">Chargement...</div>
+        )}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredEvents.map((event) => (
             <div
@@ -151,7 +135,7 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({ currentLanguage }) => {
               {/* Event Image */}
               <div className="relative h-48 bg-gradient-to-br from-emerald-600 to-blue-600">
                 <img
-                  src="https://images.pexels.com/photos/8728380/pexels-photo-8728380.jpeg"
+                  src={`/storage/images/${event.image}`}
                   alt={event.title}
                   className="w-full h-full object-cover opacity-80"
                 />
@@ -197,23 +181,10 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({ currentLanguage }) => {
                     <MapPin className="w-5 h-5 text-amber-600" />
                     <span className="text-sm">{event.location}</span>
                   </div>
-                  
-                  <div className="flex items-center space-x-3 text-gray-600">
-                    <Users className="w-5 h-5 text-purple-600" />
-                    <span className="text-sm">{event.participants} {t.participants}</span>
-                  </div>
                 </div>
 
                 {/* Action Button */}
-                <button
-                  className={`w-full py-3 px-6 rounded-lg font-semibold transition-all duration-300 ${
-                    event.status === 'upcoming'
-                      ? 'bg-emerald-600 text-white hover:bg-emerald-700 shadow-md hover:shadow-lg'
-                      : 'bg-gray-600 text-white hover:bg-gray-700 shadow-md hover:shadow-lg'
-                  }`}
-                >
-                  {event.status === 'upcoming' ? t.register : t.watchReplay}
-                </button>
+                
               </div>
             </div>
           ))}

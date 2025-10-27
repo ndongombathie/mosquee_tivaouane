@@ -11,11 +11,10 @@ const translations = {
     contribute: 'Contribuer',
     title: 'Soutenez la Grande Mosquée',
     subtitle: 'Votre contribution aide à préserver et développer ce patrimoine spirituel',
-    amounts: ['10€', '25€', '50€', '100€'],
     custom: 'Montant personnalisé',
     methods: {
-      card: 'Carte bancaire',
-      mobile: 'Mobile Money'
+      card: 'Wave',
+      mobile: 'Orange Money'
     },
     donate: 'Faire un don',
     close: 'Fermer',
@@ -25,11 +24,10 @@ const translations = {
     contribute: 'المساهمة',
     title: 'ادعم المسجد الكبير',
     subtitle: 'مساهمتك تساعد في الحفاظ على هذا التراث الروحي وتطويره',
-    amounts: ['10€', '25€', '50€', '100€'],
     custom: 'مبلغ مخصص',
     methods: {
-      card: 'بطاقة مصرفية',
-      mobile: 'المال المحمول'
+      card: 'Wave',
+      mobile: 'Orange Money'
     },
     donate: 'تبرع',
     close: 'إغلاق',
@@ -39,11 +37,10 @@ const translations = {
     contribute: 'Joxe',
     title: 'Joxal Juumaa bi',
     subtitle: 'Sa joxe dafa mën a walllu ak yeneeni patrimoine ruux boobu',
-    amounts: ['10€', '25€', '50€', '100€'],
     custom: 'Xaalis bu la bëgg',
     methods: {
-      card: 'Carte bancaire',
-      mobile: 'Mobile Money'
+      card: 'Wave',
+      mobile: 'Orange Money'
     },
     donate: 'Jox',
     close: 'Tëj',
@@ -56,8 +53,8 @@ const translations = {
     amounts: ['10€', '25€', '50€', '100€'],
     custom: 'Custom amount',
     methods: {
-      card: 'Credit card',
-      mobile: 'Mobile Money'
+      card: 'Wave',
+      mobile: 'Orange Money'
     },
     donate: 'Donate',
     close: 'Close',
@@ -111,24 +108,7 @@ const ContributionButton: React.FC<ContributionButtonProps> = ({ currentLanguage
               {/* Amount Selection */}
               <div>
                 <h4 className="font-semibold text-gray-800 mb-4">Montant</h4>
-                <div className="grid grid-cols-2 gap-3 mb-4">
-                  {t.amounts.map((amount) => (
-                    <button
-                      key={amount}
-                      onClick={() => {
-                        setSelectedAmount(amount);
-                        setCustomAmount('');
-                      }}
-                      className={`p-4 rounded-xl border-2 font-semibold transition-all duration-300 ${
-                        selectedAmount === amount
-                          ? 'border-emerald-500 bg-emerald-50 text-emerald-700'
-                          : 'border-gray-200 text-gray-700 hover:border-emerald-300 hover:bg-emerald-50'
-                      }`}
-                    >
-                      {amount}
-                    </button>
-                  ))}
-                </div>
+                
                 
                 <input
                   type="number"

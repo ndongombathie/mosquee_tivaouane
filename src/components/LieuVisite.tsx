@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Sphere, useTexture } from '@react-three/drei';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -6,9 +6,11 @@ import { ChevronLeft, X } from 'lucide-react';
 import { Language } from '../App';
 
 // ...importez les mêmes catégories que dans VirtualTour...
-import { categories } from './VirtualTour';
+import axios from '../utils/axios';
 
-function PanoramaSphere({ textureUrl, initialRotationY = Math.PI / 1.5 }) {
+function PanoramaSphere({ textureUrl, initialRotationY = Math.PI / 1.5 }: { textureUrl: string, initialRotationY: number }) { 
+  console.log("textureUrl", textureUrl);
+  
   const texture = useTexture(textureUrl);
   return (
     <Sphere args={[0.2, 64, 64]} scale={2} rotation={[0, initialRotationY, 0]}>
@@ -18,13 +20,25 @@ function PanoramaSphere({ textureUrl, initialRotationY = Math.PI / 1.5 }) {
 }
 
 const LieuVisite: React.FC<{ currentLanguage: Language }> = ({ currentLanguage }) => {
+  const [loading, setLoading] = useState<boolean>(true)
   const { catKey, lieuid } = useParams();
   const navigate = useNavigate();
+  const [lieu, setLieu] = useState<any>({});
+  useEffect(() => {
+  axios.get(`/lieus/${lieuid}`).then(response => {
+    setLieu(response.data.data);
+    setLoading(false)
+    
+  });
+}, []);
+console.log("les ides passe en parametre",catKey, lieuid);
+
+console.log(lieu);
+  
   const isRTL = currentLanguage === 'ar';
 
   // Trouver le lieu
-  const cat = categories.find(c => c.key === catKey);
-  const lieu = cat?.lieux[parseInt(lieuid?.charAt(0) || '0', 10)];
+  
 
   if (!lieu) return <div>Lieu introuvable</div>;
 
@@ -50,16 +64,18 @@ const LieuVisite: React.FC<{ currentLanguage: Language }> = ({ currentLanguage }
       </button>
       <div className="flex-1 flex flex-col items-center justify-center">
         <h2 className="text-3xl font-bold text-white mb-3 mt-2" dir={isRTL ? 'rtl' : 'ltr'}>
-          {lieu.name[currentLanguage]}
+          {lieu.name}
         </h2>
         <div className="w-full h-full flex items-center justify-center" style={{ minHeight: 0 }}>
-          <Suspense fallback={<div className="flex items-center justify-center h-full text-white">Chargement...</div>}>
+          
+          
+         <Suspense fallback={loading && <div className="flex items-center justify-center h-full text-white">Chargement...</div>}>
             <Canvas
               camera={{ position: [0, 0, 0.1], fov: 100 }}
               style={{ width: '100vw', height: '100vh', background: 'black' }}
             >
               <ambientLight intensity={0.7} />
-              <PanoramaSphere textureUrl={lieu.img} />
+              <PanoramaSphere textureUrl={`/storage/images/${'hall2.jpg'}`} initialRotationY={Math.PI / 1.5} /> 
               <OrbitControls
                 enableZoom={true}
                 enablePan={true}
