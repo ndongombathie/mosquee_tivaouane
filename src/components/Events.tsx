@@ -61,16 +61,21 @@ const translations = {
 
 
 
-const InteractiveMap: React.FC<any> = ({ currentLanguage }) => {
+const InteractiveMap: React.FC<any> = ({ currentLanguage }:{currentLanguage:string}) => {
   const [filter, setFilter] = useState('all');
   const t = translations[currentLanguage];
   const [loading, setLoading] = useState<boolean>(true)
   const [events, setEvents] = useState<any[]>([]);
+  
   useEffect(() => {
+   const fetchEvents= async () => {
     axios.get('/evenements').then(response => {
       setEvents(response.data.data);
       setLoading(false);
     });
+   }
+   fetchEvents();
+    
   }, []);
   console.log(events);
   

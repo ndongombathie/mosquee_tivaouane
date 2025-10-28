@@ -63,11 +63,20 @@ const [categories, setCategories] = useState<any[]>([]);
 const [loading, setLoading] = useState<boolean>(true)
 
 useEffect(() => {
-  axios.get('/categories').then(response => {
-    setCategories(response.data.data);
-    setLoading(false)
+  const fetchLieux = async () => {
+    try {
+      axios.get('/categories').then(response => {
+        setCategories(response.data.data);
+        setLoading(false)
+        
+      });
+    } catch (error) {
+      
+    }
     
-  });
+   }
+  fetchLieux();
+ 
 }, []);
 
 
