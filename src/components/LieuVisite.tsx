@@ -255,26 +255,7 @@ const LieuVisite: React.FC<{ currentLanguage: Language }> = ({ currentLanguage }
         
       </div>
 
-      {/* Indicateur de zoom */}
-      <div className="absolute bottom-4 left-4 bg-black/70 text-white px-4 py-2 rounded-full text-sm z-10">
-        Zoom: {Math.round((100 - zoomLevel) / 70 * 100)}%
-      </div>
-
-      {/* Instructions */}
       
-
-      {/* Panneau d'informations */}
-      {showInfo && lieu.description && (
-        <div className="absolute left-4 top-24 max-w-md bg-black/80 backdrop-blur-sm text-white p-6 rounded-lg shadow-2xl z-10" dir={isRTL ? 'rtl' : 'ltr'}>
-          <div className="flex items-start justify-between mb-3">
-            <h3 className="text-xl font-bold text-emerald-400">{getText('info')}</h3>
-            <button onClick={() => setShowInfo(false)} className="text-white hover:text-emerald-400">
-              <X className="w-5 h-5" />
-            </button>
-          </div>
-          <p className="text-sm leading-relaxed">{lieu.description}</p>
-        </div>
-      )}
 
       {/* Canvas 3D */}
       <div className="w-full h-full flex items-center justify-center">
